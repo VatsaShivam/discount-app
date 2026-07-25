@@ -65,9 +65,9 @@ jobs:
       - name: Show versions.xlsx contents (CSV)
         run: |
           python - <<'PY'
-import openpyxl, csv, sys
-wb = openpyxl.load_workbook('versions.xlsx')
-ws = wb.active
-for row in ws.iter_rows(values_only=True):
-    print(','.join([str(c) if c is not None else '' for c in row]))
-PY
+          import openpyxl, csv, sys
+          wb = openpyxl.load_workbook('versions.xlsx')
+          ws = wb.active
+          for row in ws.iter_rows(values_only=True):
+              print(','.join([str(c) if c is not None else '' for c in row]))
+          PY
