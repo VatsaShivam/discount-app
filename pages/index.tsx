@@ -1,20 +1,33 @@
 import React, { useEffect, useState } from 'react'
-
-type Discount = {
-  id: number
-  title: string
-  code: string
-  percent: number
-  expires_at: string | null
-}
+import type { Discount } from '../lib/store'
 
 export default function Home() {
   const [discounts, setDiscounts] = useState<Discount[]>([])
 
   useEffect(() => {
+    let cancelled = false
+
     fetch('/api/discounts')
-      .then((r) => r.json())
-      .then((data) => setDiscounts(data))
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error(`Request failed with ${response.status}`)
+        }
+        return response.json()
+      })
+      .then((data) => {
+        if (!cancelled) {
+          setDiscounts(Array.isArray(data) ? data : [])
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setDiscounts([])
+        }
+      })
+
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   return (

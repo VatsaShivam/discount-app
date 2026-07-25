@@ -8,17 +8,21 @@ export default function Admin() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
-    const res = await fetch('/api/discounts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, code, percent }),
-    })
-    if (res.ok) {
-      setMessage('Discount created')
-      setTitle('')
-      setCode('')
-      setPercent(10)
-    } else {
+    try {
+      const res = await fetch('/api/discounts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, code, percent }),
+      })
+      if (res.ok) {
+        setMessage('Discount created')
+        setTitle('')
+        setCode('')
+        setPercent(10)
+      } else {
+        setMessage('Error creating discount')
+      }
+    } catch {
       setMessage('Error creating discount')
     }
   }

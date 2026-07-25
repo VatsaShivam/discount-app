@@ -1,7 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { query } from '../../lib/db'
+import { hasDatabaseConfig, query } from '../../lib/db'
+import { addDiscount, getDiscounts } from '../../lib/store'
 
 async function ensureTable() {
+  if (!hasDatabaseConfig()) return
+
   await query(`
     CREATE TABLE IF NOT EXISTS discounts (
       id SERIAL PRIMARY KEY,
@@ -16,17 +19,31 @@ async function ensureTable() {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    await ensureTable()
     if (req.method === 'GET') {
-      const r = await query('SELECT id, title, code, percent, expires_at FROM discounts ORDER BY id DESC')
-      return res.status(200).json(r.rows)
+      if (hasDatabaseConfig()) {
+        await ensureTable()
+        const r = await query('SELECT id, title, code, percent, expires_at FROM discounts ORDER BY id DESC')
+        return res.status(200).json(r.rows)
+      }
+
+      return res.status(200).json(getDiscounts())
     }
 
     if (req.method === 'POST') {
-      const { title, code, percent } = req.body
-      if (!title || !code || !percent) return res.status(400).json({ error: 'missing fields' })
-      const insert = await query('INSERT INTO discounts (title, code, percent) VALUES ($1,$2,$3) RETURNING id, title, code, percent, expires_at', [title, code, percent])
-      return res.status(201).json(insert.rows[0])
+      const body = req.body as { title?: string; code?: string; percent?: number }
+      const { title, code, percent } = body
+      if (!title || !code || typeof percent !== 'number') {
+        return res.status(400).json({ error: 'missing fields' })
+      }
+
+      if (hasDatabaseConfig()) {
+        await ensureTable()
+        const insert = await query('INSERT INTO discounts (title, code, percent) VALUES ($1,$2,$3) RETURNING id, title, code, percent, expires_at', [title, code, percent])
+        return res.status(201).json(insert.rows[0])
+      }
+
+      const created = addDiscount({ title, code, percent, expires_at: null })
+      return res.status(201).json(created)
     }
 
     res.setHeader('Allow', 'GET,POST')
