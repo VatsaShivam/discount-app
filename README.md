@@ -1,5 +1,5 @@
 # discount-app
-Discount app and website (telon.one-like) scaffolded by Copilot CLI
+Discount app and website
 
 This repository contains a minimal Next.js (TypeScript) discount app with a simple admin UI and an API backed by PostgreSQL.
 
