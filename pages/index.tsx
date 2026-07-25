@@ -1,14 +1,16 @@
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 export default function Home() {
+  const router = useRouter()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [remember, setRemember] = useState(false)
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    alert(`Signing in as ${username || 'user'}`)
+    router.push('/admin')
   }
 
   return (
@@ -43,7 +45,7 @@ export default function Home() {
                 <span>Username</span>
                 <input
                   type="text"
-                  placeholder="Enter your username"
+                  placeholder="Username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
@@ -55,7 +57,7 @@ export default function Home() {
                 <span>Password</span>
                 <input
                   type="password"
-                  placeholder="Enter your password"
+                  placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
