@@ -1,33 +1,11 @@
-export type Discount = {
-  id: number
-  title: string
-  code: string
-  percent: number
-  expires_at: string | null
+// Small wrapper around localStorage for the template
+export function save(key: string, value: any) {
+  if (typeof window === 'undefined') return
+  localStorage.setItem(key, JSON.stringify(value))
 }
 
-const starterDiscounts: Discount[] = [
-  {
-    id: 1,
-    title: 'Launch week offer',
-    code: 'LAUNCH10',
-    percent: 10,
-    expires_at: null,
-  },
-]
-
-let nextId = starterDiscounts.length + 1
-let inMemoryDiscounts: Discount[] = starterDiscounts.map((discount) => ({ ...discount }))
-
-export function getDiscounts(): Discount[] {
-  return inMemoryDiscounts.map((discount) => ({ ...discount }))
-}
-
-export function addDiscount(input: Omit<Discount, 'id'>): Discount {
-  const created: Discount = {
-    id: nextId++,
-    ...input,
-  }
-  inMemoryDiscounts = [created, ...inMemoryDiscounts]
-  return created
+export function load(key: string) {
+  if (typeof window === 'undefined') return null
+  const v = localStorage.getItem(key)
+  return v ? JSON.parse(v) : null
 }

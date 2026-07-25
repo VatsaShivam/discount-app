@@ -1,0 +1,29 @@
+:root {
+  --bg: #fff8f6;
+  --card: #ffffff;
+  --accent: #ff7a00;
+  --muted: #6b6b6b;
+}
+
+* { box-sizing: border-box; }
+html,body,#__next { height: 100%; }
+body { font-family: Inter, system-ui, Arial, sans-serif; margin: 0; background: var(--bg); color: #111; }
+
+.container { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:24px }
+.card { display:grid; grid-template-columns: 320px 420px; gap: 24px; background: var(--card); padding: 28px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 780px }
+.brand { padding: 12px }
+.brand h1 { margin: 0; font-size: 28px; color: #0b3a5b }
+.brand h2 { margin: 4px 0 12px; color: var(--accent); }
+.brand p { color: var(--muted); margin: 0 }
+
+.form h3 { margin-top: 0 }
+.form form { display:flex; flex-direction:column; gap:12px }
+.form label { display:flex; flex-direction:column; font-size: 14px; color: #333 }
+.form input { padding: 10px 12px; border-radius: 6px; border: 1px solid #e6e6e6 }
+.actions { display:flex; gap:12px; margin-top:8px }
+.btn { padding: 10px 14px; border-radius: 8px; cursor:pointer; border: none }
+.btn.primary { background: var(--accent); color: white }
+.btn.ghost { background: #fff; border: 1px solid #e3e3e3 }
+.btn.outline { background: transparent; border: 1px dashed #ddd; padding: 8px 12px }
+
+.sso { margin-top: 10px }

@@ -1,54 +1,31 @@
-import React, { useState } from 'react'
+import Head from 'next/head'
+import Link from 'next/link'
 
 export default function Admin() {
-  const [title, setTitle] = useState('')
-  const [code, setCode] = useState('')
-  const [percent, setPercent] = useState(10)
-  const [message, setMessage] = useState('')
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault()
-    try {
-      const res = await fetch('/api/discounts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, code, percent }),
-      })
-      if (res.ok) {
-        setMessage('Discount created')
-        setTitle('')
-        setCode('')
-        setPercent(10)
-      } else {
-        setMessage('Error creating discount')
-      }
-    } catch {
-      setMessage('Error creating discount')
-    }
-  }
-
   return (
-    <main style={{ padding: 24, fontFamily: 'system-ui, sans-serif' }}>
-      <h1>Admin</h1>
-      <form onSubmit={submit}>
-        <div>
-          <label>Title</label>
-          <br />
-          <input value={title} onChange={(e) => setTitle(e.target.value)} />
-        </div>
-        <div>
-          <label>Code</label>
-          <br />
-          <input value={code} onChange={(e) => setCode(e.target.value)} />
-        </div>
-        <div>
-          <label>Percent</label>
-          <br />
-          <input type="number" value={percent} onChange={(e) => setPercent(Number(e.target.value))} />
-        </div>
-        <button type="submit">Create</button>
-      </form>
-      {message && <p>{message}</p>}
-    </main>
+    <div style={{ padding: 24 }}>
+      <Head>
+        <title>Admin · Discount Manager Pro</title>
+      </Head>
+
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1>Admin Dashboard</h1>
+        <Link href="/">Home</Link>
+      </header>
+
+      <section style={{ marginTop: 20 }}>
+        <h2>Quick Actions</h2>
+        <ul>
+          <li>Create discount campaigns</li>
+          <li>Manage rules</li>
+          <li>View reports</li>
+        </ul>
+      </section>
+
+      <section style={{ marginTop: 20 }}>
+        <h2>Recent Activity</h2>
+        <p>No activity yet — this is a template.</p>
+      </section>
+    </div>
   )
 }

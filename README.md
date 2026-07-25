@@ -1,20 +1,21 @@
-# discount-app
-Discount app and website
+# Discount App (Template)
 
-This repository contains a minimal Next.js (TypeScript) discount app with a simple admin UI and an API backed by PostgreSQL.
+This folder contains a clean Next.js TypeScript template for the Discount Manager app.
 
-Features
-- List discounts on the homepage
-- Create discounts in /admin
-- API endpoints in /api/discounts (uses DATABASE_URL)
-- CI workflow that builds and triggers a Render deploy and updates versions.xlsx with deployment metadata
+Quick start:
 
-Deployment notes
-- Create a Render Web Service and set it to deploy from this GitHub repository (preferred), or provide RENDER_SERVICE_ID and RENDER_API_KEY as repository secrets so the workflow can trigger deploys.
-- Add a managed PostgreSQL on Render and set the DATABASE_URL in Render's environment variables.
+1. cd discount-app
+2. npm install
+3. npm run dev
 
-GitHub secrets required for automatic deploy trigger (optional but recommended):
-- RENDER_SERVICE_ID
-- RENDER_API_KEY
+What this template includes:
 
-The workflow will create or update versions.xlsx on each successful push to main.
+- Minimal Next.js + React setup
+- `pages/index.tsx` — Landing / Login
+- `pages/admin.tsx` — Simple admin dashboard
+- `pages/_app.tsx` — Global wrapper
+- `lib/db.ts` — placeholder DB utilities
+- `lib/store.ts` — small localStorage wrapper
+- `styles/globals.css` — basic styling
+
+Swap template files in if you need to further customize.

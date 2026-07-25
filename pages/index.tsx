@@ -1,47 +1,53 @@
-import React, { useEffect, useState } from 'react'
-import type { Discount } from '../lib/store'
+import Head from 'next/head'
+import Link from 'next/link'
+import { useState } from 'react'
 
 export default function Home() {
-  const [discounts, setDiscounts] = useState<Discount[]>([])
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
-  useEffect(() => {
-    let cancelled = false
-
-    fetch('/api/discounts')
-      .then(async (response) => {
-        if (!response.ok) {
-          throw new Error(`Request failed with ${response.status}`)
-        }
-        return response.json()
-      })
-      .then((data) => {
-        if (!cancelled) {
-          setDiscounts(Array.isArray(data) ? data : [])
-        }
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setDiscounts([])
-        }
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [])
+  function handleLogin(e: React.FormEvent) {
+    e.preventDefault()
+    // Placeholder: implement auth or redirect
+    alert(`Logging in as ${username || 'user'}`)
+  }
 
   return (
-    <main style={{ padding: 24, fontFamily: 'system-ui, sans-serif' }}>
-      <h1>Discounts — Minimal Telon.one-like</h1>
-      <p>A simple discount listing and creation app. Visit /admin to add discounts.</p>
-      <ul>
-        {discounts.map((d) => (
-          <li key={d.id} style={{ marginBottom: 12 }}>
-            <strong>{d.title}</strong> — {d.percent}% — code: <code>{d.code}</code>
-            {d.expires_at ? <span> — expires: {new Date(d.expires_at).toLocaleString()}</span> : null}
-          </li>
-        ))}
-      </ul>
-    </main>
+    <div className="container">
+      <Head>
+        <title>Discount Manager Pro</title>
+      </Head>
+
+      <main className="card">
+        <section className="brand">
+          <h1>Discount</h1>
+          <h2>Manager Pro</h2>
+          <p>Smart Discounts. Stronger Business.</p>
+        </section>
+
+        <section className="form">
+          <h3>Welcome Back!</h3>
+          <form onSubmit={handleLogin}>
+            <label>
+              Username
+              <input value={username} onChange={(e) => setUsername(e.target.value)} />
+            </label>
+            <label>
+              Password
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            </label>
+
+            <div className="actions">
+              <button type="submit" className="btn primary">Login</button>
+              <Link href="/admin"><button type="button" className="btn ghost">Go to Admin</button></Link>
+            </div>
+          </form>
+
+          <div className="sso">
+            <button className="btn outline">Login with SSO</button>
+          </div>
+        </section>
+      </main>
+    </div>
   )
 }

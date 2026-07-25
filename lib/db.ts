@@ -1,3 +1,18 @@
+// Placeholder DB utilities for the template
+// Replace with real database code (Prisma, Mongoose, etc.)
+
+export async function connect() {
+  // noop placeholder for connecting to database
+  return Promise.resolve()
+}
+
+export async function getDiscounts() {
+  // return sample data
+  return [
+    { id: 'd1', name: 'Summer Sale', active: true },
+    { id: 'd2', name: 'Clearance', active: false }
+  ]
+}
 import { Pool, QueryResult } from 'pg'
 
 const connectionString = process.env.DATABASE_URL || ''
